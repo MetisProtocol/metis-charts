@@ -1,0 +1,131 @@
+{{ if .Values.consensus.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "metis-node.fullname" . }}-themis
+  labels:
+    app: {{ .Release.Name }}-themis
+    {{- include "metis-node.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "metis-node.fullname" . }}-themis
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-themis
+      {{- include "metis-node.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.consensus.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        app: {{ .Release.Name }}-themis
+        {{- include "metis-node.labels" . | nindent 8 }}
+        {{- with .Values.consensus.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.consensus.attachServiceAccount .Values.serviceAccount.create }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.consensus.podSecurityContext | nindent 8 }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      terminationGracePeriodSeconds: {{ .Values.consensus.terminationGracePeriodSeconds }}
+      {{- with .Values.consensus.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: themis
+          securityContext:
+            {{- toYaml .Values.consensus.securityContext | nindent 12 }}
+          image: "{{ .Values.consensus.image.repository }}:{{ .Values.consensus.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.consensus.image.pullPolicy }}
+          {{ with .Values.consensus.themis.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{ with .Values.consensus.themis.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.consensus.themis.envs }}
+          envs:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.consensus.themis.startupProbe.enabled }}
+          startupProbe:
+            {{- toYaml .Values.consensus.themis.startupProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.consensus.themis.livenessProbe.enabled }}
+          livenessProbe:
+            {{- toYaml .Values.consensus.themis.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.consensus.themis.livenessProbe.enabled }}
+          readinessProbe:
+            {{- toYaml .Values.consensus.themis.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.consensus.themis.resources | nindent 12 }}
+          {{- with .Values.consensus.themis.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        - name: bridge
+          securityContext:
+            {{- toYaml .Values.consensus.securityContext | nindent 12 }}
+          image: "{{ .Values.consensus.image.repository }}:{{ .Values.consensus.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.consensus.image.pullPolicy }}
+          {{ with .Values.consensus.bridge.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{ with .Values.consensus.bridge.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.consensus.bridge.envs }}
+          envs:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.consensus.bridge.startupProbe.enabled }}
+          startupProbe:
+            {{- toYaml .Values.consensus.bridge.startupProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.consensus.bridge.livenessProbe.enabled }}
+          livenessProbe:
+            {{- toYaml .Values.consensus.bridge.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.consensus.bridge.livenessProbe.enabled }}
+          readinessProbe:
+            {{- toYaml .Values.consensus.bridge.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.consensus.bridge.resources | nindent 12 }}
+          {{- with .Values.consensus.bridge.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.consensus.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.consensus.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.consensus.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.consensus.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

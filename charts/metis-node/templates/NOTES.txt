@@ -1,0 +1,13 @@
+Welcome boarding!
+
+{{- if .Values.l2geth.service.enabled }}
+1. Get the l2geth height by running these commands:
+  curl http://{{ include "metis-node.fullname" . }}-l2geth.{{ .Release.Namespace }}.svc.cluster.local:8545  -X POST \
+  -H "Content-Type: application/json" \
+  --data '{"method":"eth_blockNumber","params":[],"id":1,"jsonrpc":"2.0"}'
+{{- end }}
+
+{{- if .Values.consensus.enabled }}
+2. Get the themis height and the latest span by running these commands:
+  curl http://{{ include "metis-node.fullname" . }}-themis.{{ .Release.Namespace }}.svc.cluster.local:1317/metis/latest-span
+{{- end }}

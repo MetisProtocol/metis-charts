@@ -1,0 +1,11 @@
+{{- if .Values.scripts.eip }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "metis-node.fullname" . }}-eip-setup
+  labels:
+    {{- include "metis-node.labels" . | nindent 4 }}
+  data:
+    eip.sh: |
+    {{- .Files.Get "files/eip.sh" | nindent 6 }}
+{{- end }}

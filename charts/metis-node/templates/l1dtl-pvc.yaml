@@ -1,0 +1,13 @@
+{{ if .Values.l1dtl.pvc.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "metis-node.fullname" . }}-l1dtl
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ .Values.l1dtl.pvc.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.l1dtl.pvc.size }}
+{{- end }}

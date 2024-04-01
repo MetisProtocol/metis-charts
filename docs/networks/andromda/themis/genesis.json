@@ -1,0 +1,315 @@
+{
+  "genesis_time": "2024-03-14T02:22:33.042959Z",
+  "chain_id": "andromeda",
+  "consensus_params": {
+    "block": {
+      "max_bytes": "84040192",
+      "max_gas": "-1",
+      "time_iota_ms": "1000"
+    },
+    "evidence": {
+      "max_age": "100000"
+    },
+    "validator": {
+      "pub_key_types": ["secp256k1"]
+    }
+  },
+  "app_hash": "",
+  "app_state": {
+    "auth": {
+      "params": {
+        "max_memo_characters": "256",
+        "tx_sig_limit": "7",
+        "tx_size_cost_per_byte": "10",
+        "sig_verify_cost_ed25519": "590",
+        "sig_verify_cost_secp256k1": "1000",
+        "max_tx_gas": "1000000",
+        "tx_fees": "1000000000000000"
+      },
+      "accounts": [
+        {
+          "address": "0xeca7ae7de0d1978df299a547ee66c4503fba474d",
+          "coins": [
+            {
+              "denom": "themis",
+              "amount": "1809251394333065553493296640760748560207343510400633813116524750123642650624"
+            }
+          ],
+          "sequence_number": "0",
+          "account_number": "0",
+          "module_name": "",
+          "module_permissions": null
+        },
+        {
+          "address": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+          "coins": [
+            {
+              "denom": "themis",
+              "amount": "1809251394333065553493296640760748560207343510400633813116524750123642650624"
+            }
+          ],
+          "sequence_number": "0",
+          "account_number": "0",
+          "module_name": "",
+          "module_permissions": null
+        },
+        {
+          "address": "0xaff606251d8540f97ca2db12774c0147a170ab9e",
+          "coins": [
+            {
+              "denom": "themis",
+              "amount": "1809251394333065553493296640760748560207343510400633813116524750123642650624"
+            }
+          ],
+          "sequence_number": "0",
+          "account_number": "0",
+          "module_name": "",
+          "module_permissions": null
+        }
+      ]
+    },
+    "bank": {
+      "send_enabled": true
+    },
+    "chainmanager": {
+      "params": {
+        "mainchain_tx_confirmations": "12",
+        "metischain_tx_confirmations": "1",
+        "chain_params": {
+          "main_chain_id": "1",
+          "metis_chain_id": "1088",
+          "metis_token_address": "0x9e32b13ce7f2e80a01932b42553652e053d6ed8e",
+          "staking_manager_address": "0xd54c868362c2098e0e46f12e7d924c6a332952dd",
+          "staking_info_address": "0x0fe382b74c3894b65c10e5c12ae60bbd8faf5b48",
+          "validator_set_address": "0x0fe382b74C3894B65c10E5C12ae60Bbd8FAf5b48"
+        }
+      }
+    },
+    "gov": {
+      "starting_proposal_id": "1",
+      "deposits": null,
+      "votes": null,
+      "proposals": null,
+      "deposit_params": {
+        "min_deposit": [
+          {
+            "denom": "themis",
+            "amount": "10000000000000000000"
+          }
+        ],
+        "max_deposit_period": "172800000000000"
+      },
+      "voting_params": {
+        "voting_period": "172800000000000"
+      },
+      "tally_params": {
+        "quorum": "0.334000000000000000",
+        "threshold": "0.500000000000000000",
+        "veto": "0.334000000000000000"
+      }
+    },
+    "metis": {
+      "params": {
+        "sprint_duration": "10",
+        "span_duration": "1000",
+        "producer_count": "1"
+      },
+      "spans": [
+        {
+          "span_id": "0",
+          "start_block": "15214531",
+          "end_block": "15215530",
+          "validator_set": {
+            "validators": [
+              {
+                "ID": "2",
+                "startBatch": "0",
+                "endBatch": "0",
+                "nonce": "1",
+                "power": "20000",
+                "pubKey": "0x041674b9842e300ab236bf6cedfea92e80a04cc7f12bbff2ff35b01295380d9211a9861a40867a4a04c6a89ee0a022f7afccbb5dddb87d622e1ddff9bd2069c7e8",
+                "signer": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+                "last_updated": "",
+                "jailed": false,
+                "accum": "-40000"
+              },
+              {
+                "ID": "3",
+                "startBatch": "0",
+                "endBatch": "0",
+                "nonce": "1",
+                "power": "20000",
+                "pubKey": "0x04713de5a736a196d0d65fc7e5d8cd716086d099fbaee929774752f2e8e370105e2d90e846d64167ea59a95160277abddf004660c6dac47f5c92a0f00234fe7000",
+                "signer": "0xaff606251d8540f97ca2db12774c0147a170ab9e",
+                "last_updated": "",
+                "jailed": false,
+                "accum": "20000"
+              },
+              {
+                "ID": "1",
+                "startBatch": "0",
+                "endBatch": "0",
+                "nonce": "1",
+                "power": "20000",
+                "pubKey": "0x044d5e02936a222d68b5d423e566828d8c67ca2290cf428254c44c7be458b33decec1fe85d900756811366e2d19baeb2fe81b46ce10c1863e00d811e68a4e76c9f",
+                "signer": "0xeca7ae7de0d1978df299a547ee66c4503fba474d",
+                "last_updated": "",
+                "jailed": false,
+                "accum": "20000"
+              }
+            ],
+            "proposer": {
+              "ID": "2",
+              "startBatch": "0",
+              "endBatch": "0",
+              "nonce": "1",
+              "power": "20000",
+              "pubKey": "0x041674b9842e300ab236bf6cedfea92e80a04cc7f12bbff2ff35b01295380d9211a9861a40867a4a04c6a89ee0a022f7afccbb5dddb87d622e1ddff9bd2069c7e8",
+              "signer": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+              "last_updated": "",
+              "jailed": false,
+              "accum": "-40000"
+            }
+          },
+          "selected_producers": [
+            {
+              "ID": "2",
+              "startBatch": "0",
+              "endBatch": "0",
+              "nonce": "1",
+              "power": "20000",
+              "pubKey": "0x041674b9842e300ab236bf6cedfea92e80a04cc7f12bbff2ff35b01295380d9211a9861a40867a4a04c6a89ee0a022f7afccbb5dddb87d622e1ddff9bd2069c7e8",
+              "signer": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+              "last_updated": "",
+              "jailed": false,
+              "accum": "-40000"
+            }
+          ],
+          "metis_chain_id": "1088"
+        }
+      ]
+    },
+    "mpc": {
+      "mpc_set": [
+        {
+          "id": "16Uiu2HAmGV9DQbwtrg2azbn7uz7mH8ysmrVRuo6CuWxqhP7EPDyE",
+          "moniker": "0xeca7ae7de0d1978df299a547ee66c4503fba474d",
+          "key": "Azjo9lhg6sgFyaDpNOZAGH5ZsGfs4ewP9GLSJbp8XYzt"
+        },
+        {
+          "id": "16Uiu2HAmDr7by2uDC2wdAPM7XwW6dajwfngTxGEmeCQ8hoLTNLAj",
+          "moniker": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+          "key": "AxG1RuF/zr5aWiR5i6ggq4PvjMnrqBXi4TGDTFm4DOQo"
+        },
+        {
+          "id": "16Uiu2HAm1Jj1Mz5mmk4YS3x8hcfYmDrXWj5VyhF6nKSr6WTdsSn5",
+          "moniker": "0xaff606251d8540f97ca2db12774c0147a170ab9e",
+          "key": "AldeeoUvdLhHcxDeKqm2d6I7kEFD3coJGuCV7oxvk/vK"
+        }
+      ]
+    },
+    "params": null,
+    "sidechannel": {
+      "past_commits": []
+    },
+    "staking": {
+      "validators": [
+        {
+          "ID": "1",
+          "startBatch": "0",
+          "endBatch": "0",
+          "nonce": "1",
+          "power": "20000",
+          "pubKey": "0x044d5e02936a222d68b5d423e566828d8c67ca2290cf428254c44c7be458b33decec1fe85d900756811366e2d19baeb2fe81b46ce10c1863e00d811e68a4e76c9f",
+          "signer": "0xeca7ae7de0d1978df299a547ee66c4503fba474d",
+          "last_updated": "",
+          "jailed": false,
+          "accum": "0"
+        },
+        {
+          "ID": "2",
+          "startBatch": "0",
+          "endBatch": "0",
+          "nonce": "1",
+          "power": "20000",
+          "pubKey": "0x041674b9842e300ab236bf6cedfea92e80a04cc7f12bbff2ff35b01295380d9211a9861a40867a4a04c6a89ee0a022f7afccbb5dddb87d622e1ddff9bd2069c7e8",
+          "signer": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+          "last_updated": "",
+          "jailed": false,
+          "accum": "0"
+        },
+        {
+          "ID": "3",
+          "startBatch": "0",
+          "endBatch": "0",
+          "nonce": "1",
+          "power": "20000",
+          "pubKey": "0x04713de5a736a196d0d65fc7e5d8cd716086d099fbaee929774752f2e8e370105e2d90e846d64167ea59a95160277abddf004660c6dac47f5c92a0f00234fe7000",
+          "signer": "0xaff606251d8540f97ca2db12774c0147a170ab9e",
+          "last_updated": "",
+          "jailed": false,
+          "accum": "0"
+        }
+      ],
+      "current_val_set": {
+        "validators": [
+          {
+            "ID": "2",
+            "startBatch": "0",
+            "endBatch": "0",
+            "nonce": "1",
+            "power": "20000",
+            "pubKey": "0x041674b9842e300ab236bf6cedfea92e80a04cc7f12bbff2ff35b01295380d9211a9861a40867a4a04c6a89ee0a022f7afccbb5dddb87d622e1ddff9bd2069c7e8",
+            "signer": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+            "last_updated": "",
+            "jailed": false,
+            "accum": "-40000"
+          },
+          {
+            "ID": "3",
+            "startBatch": "0",
+            "endBatch": "0",
+            "nonce": "1",
+            "power": "20000",
+            "pubKey": "0x04713de5a736a196d0d65fc7e5d8cd716086d099fbaee929774752f2e8e370105e2d90e846d64167ea59a95160277abddf004660c6dac47f5c92a0f00234fe7000",
+            "signer": "0xaff606251d8540f97ca2db12774c0147a170ab9e",
+            "last_updated": "",
+            "jailed": false,
+            "accum": "20000"
+          },
+          {
+            "ID": "1",
+            "startBatch": "0",
+            "endBatch": "0",
+            "nonce": "1",
+            "power": "20000",
+            "pubKey": "0x044d5e02936a222d68b5d423e566828d8c67ca2290cf428254c44c7be458b33decec1fe85d900756811366e2d19baeb2fe81b46ce10c1863e00d811e68a4e76c9f",
+            "signer": "0xeca7ae7de0d1978df299a547ee66c4503fba474d",
+            "last_updated": "",
+            "jailed": false,
+            "accum": "20000"
+          }
+        ],
+        "proposer": {
+          "ID": "2",
+          "startBatch": "0",
+          "endBatch": "0",
+          "nonce": "1",
+          "power": "20000",
+          "pubKey": "0x041674b9842e300ab236bf6cedfea92e80a04cc7f12bbff2ff35b01295380d9211a9861a40867a4a04c6a89ee0a022f7afccbb5dddb87d622e1ddff9bd2069c7e8",
+          "signer": "0xa233cc81fc6c12e3318ea71ec5d7bba78c706b04",
+          "last_updated": "",
+          "jailed": false,
+          "accum": "-40000"
+        }
+      },
+      "staking_sequences": null,
+      "staking_batch": "0"
+    },
+    "supply": {
+      "supply": {
+        "total": []
+      }
+    }
+  }
+}

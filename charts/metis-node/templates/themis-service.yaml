@@ -1,0 +1,22 @@
+{{- if .Values.consensus.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "metis-node.fullname" . }}-themis
+  labels:
+    app: {{ .Release.Name }}-themis-svc
+    {{- include "metis-node.labels" . | nindent 4 }}
+  {{- with .Values.consensus.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.consensus.service.type }}
+  {{- with .Values.consensus.service.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    app: {{ .Release.Name }}-themis
+    {{- include "metis-node.selectorLabels" . | nindent 4 }}
+{{- end }}

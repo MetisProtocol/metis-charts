@@ -1,0 +1,11 @@
+{{- if .Values.scripts.initThemis }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "metis-node.fullname" . }}-init-themis-setup
+  labels:
+    {{- include "metis-node.labels" . | nindent 4 }}
+  data:
+    "init-themis.sh": |
+    {{- .Files.Get "files/init-themis.sh" | nindent 6 }}
+{{- end }}

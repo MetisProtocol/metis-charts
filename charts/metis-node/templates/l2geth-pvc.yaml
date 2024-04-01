@@ -1,0 +1,13 @@
+{{ if .Values.l2geth.pvc.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "metis-node.fullname" . }}-l2geth
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ .Values.l2geth.pvc.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.l2geth.pvc.size }}
+{{- end }}

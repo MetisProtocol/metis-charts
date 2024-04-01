@@ -1,0 +1,388 @@
+# Default values for metis-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+nameOverride: ""
+fullnameOverride: ""
+
+# create if the script to configmap
+scripts:
+  eip: false
+  initThemis: false
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  # It's for binding an EIP or something
+  create: false
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  name: ""
+
+l2geth:
+  enabled: true
+  # attach if the ServiceAccount
+  attachServiceAccount: true
+  ## Image parametes
+  ##
+  image:
+    repository: metisdao/l2geth
+    pullPolicy: IfNotPresent
+    tag: "v0.1.0"
+
+  ## Set ENV
+  envs: []
+
+  ## Set ENV to Secret
+  ## Refer to docs/networks/<network>/l2geth.env.yaml for the details
+  envFromSecret:
+    # key and value MUST both be string type
+    # e.g. true -> "true" 123 -> "123"
+    USE_MVM: "true"
+
+  initContainers: []
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext: {}
+  ## SecurityContext holds pod-level security attributes and common container settings.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  ##
+  securityContext: {}
+  terminationGracePeriodSeconds: 60
+
+  ## Startup probe
+  ##
+  startupProbe:
+    enabled: true
+    action:
+      tcpSocket:
+        port: 8545
+      failureThreshold: 10
+      periodSeconds: 3
+      initialDelaySeconds: 3
+
+  ## Liveness probe
+  ##
+  livenessProbe:
+    enabled: true
+    action:
+      httpGet:
+        path: /
+        port: 8545
+      failureThreshold: 3
+      periodSeconds: 30
+
+  ## Readiness probe
+  ##
+  readinessProbe:
+    enabled: true
+    action:
+      httpGet:
+        path: /
+        port: 8545
+      failureThreshold: 3
+      periodSeconds: 30
+
+  ports:
+    - containerPort: 8545
+      name: jsonrpc
+    - containerPort: 30303
+      name: p2p-tcp
+    - containerPort: 30303
+      protocol: UDP
+      name: p2p-udp
+
+  service:
+    type: ClusterIP
+    annotations: {}
+    ports:
+      - port: 8545
+        protocol: TCP
+        targetPort: jsonrpc
+        name: http
+
+  resources:
+    requests:
+      memory: "8Gi"
+      cpu: "4000m"
+    limits:
+      memory: "16Gi"
+      cpu: 8000m
+
+  tolerations: []
+  affinity: {}
+
+  pvc:
+    enabled: true
+    storageClassName: "default"
+    size: "500Gi"
+
+  volumes:
+    []
+    # - name: data
+    #   persistentVolumeClaim:
+    #     claimName: the pvc name
+
+  volumeMounts:
+    []
+    # - name: data
+    #   mountPath: "/root/.ethereum"
+
+l1dtl:
+  enabled: true
+  attachServiceAccount: false
+  ## Image parametes
+  ##
+  image:
+    repository: metisdao/dtl
+    pullPolicy: IfNotPresent
+    tag: "v0.1.0"
+
+  ## Set ENV vars via secret
+  ## Refer to docs/networks/<network>/l1dtl.env.yaml for the details
+  envFromSecret:
+    DATA_TRANSPORT_LAYER__DB_PATH: /data/db
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext: {}
+  securityContext: {}
+  terminationGracePeriodSeconds: 60
+
+  ## Startup probe
+  ##
+  startupProbe:
+    enabled: true
+    action:
+      tcpSocket:
+        port: 7878
+      failureThreshold: 10
+      periodSeconds: 3
+      initialDelaySeconds: 3
+
+  ## Liveness probe
+  ##
+  livenessProbe:
+    enabled: true
+    action:
+      tcpSocket:
+        port: 7878
+      failureThreshold: 3
+      periodSeconds: 30
+
+  ## Readiness probe
+  ##
+  readinessProbe:
+    enabled: true
+    action:
+      tcpSocket:
+        port: 7878
+      failureThreshold: 3
+      periodSeconds: 30
+
+  ports:
+    - containerPort: 7878
+      name: rest
+
+  service:
+    type: ClusterIP
+    annotations: {}
+    ports:
+      - port: 7878
+        protocol: TCP
+        targetPort: rest
+        name: http
+
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "512m"
+    limits:
+      memory: "4Gi"
+      cpu: "2000m"
+
+  pvc:
+    enabled: true
+    storageClassName: "default"
+    size: "20Gi"
+
+  tolerations: []
+  affinity: {}
+
+  volumes:
+    []
+    # - name: data
+    #   persistentVolumeClaim:
+    #     claimName: the pvc name
+
+  volumeMounts:
+    []
+    # - name: data
+    #   mountPath: "/data"
+
+consensus:
+  enabled: false
+  attachServiceAccount: false
+  ## Image parametes
+  ##
+  image:
+    repository: metisdao/themis
+    pullPolicy: IfNotPresent
+    tag: "v0.0.1"
+
+  ## Set ENV vars via secret
+  ## Refer to docs/networks/<network>/l1dtl.env.yaml for the details
+  envFromSecret:
+    DATA_TRANSPORT_LAYER__DB_PATH: /data/db
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext: {}
+  securityContext: {}
+  terminationGracePeriodSeconds: 60
+
+  bridge:
+    args:
+      - bridge
+      - start
+      - --all
+      - --node=tcp://localhost:26657
+    ## Set ENV
+    ## Refer to docs/networks/<network>/bridge.env.yaml for the details
+    envs:
+      - name: "TENDERMINT_RPC_URL"
+        value: "http://localhost:26657"
+      - name: "REST_SERVER"
+        value: "http://localhost:1317"
+    ports:
+      - containerPort: 8646
+        name: brdige
+    ## Startup probe
+    ##
+    startupProbe:
+      enabled: true
+      action:
+        tcpSocket:
+          port: 8646
+        failureThreshold: 10
+        periodSeconds: 3
+        initialDelaySeconds: 3
+    ## Liveness probe
+    ##
+    livenessProbe:
+      enabled: true
+      action:
+        tcpSocket:
+          port: 8646
+        failureThreshold: 3
+        periodSeconds: 30
+
+    ## Readiness probe
+    ##
+    readinessProbe:
+      enabled: true
+      action:
+        tcpSocket:
+          port: 8646
+        failureThreshold: 3
+        periodSeconds: 30
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "1000m"
+      limits:
+        memory: "4Gi"
+        cpu: "3000m"
+    volumeMounts:
+      []
+      # - name: data
+      #   mountPath: "/var/lib/themis"
+
+  themis:
+    args:
+      - start
+      - --rest-server=true
+      - --p2p.laddr=tcp://0.0.0.0:26656
+      - --rpc.laddr=tcp://0.0.0.0:26657
+    ports:
+      - containerPort: 1317
+        name: rest
+      - containerPort: 26657
+        name: jsonrpc
+      - containerPort: 26656
+        name: p2p
+    ## Set ENV
+    ## Refer to docs/networks/<network>/themis.env.yaml for the details
+    envs: []
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "2000m"
+      limits:
+        memory: "16Gi"
+        cpu: "8000m"
+    ## Startup probe
+    ##
+    startupProbe:
+      enabled: true
+      action:
+        tcpSocket:
+          port: 1317
+        failureThreshold: 10
+        periodSeconds: 3
+        initialDelaySeconds: 3
+    ## Liveness probe
+    ##
+    livenessProbe:
+      enabled: true
+      action:
+        tcpSocket:
+          port: 1317
+        failureThreshold: 3
+        periodSeconds: 30
+
+    ## Readiness probe
+    ##
+    readinessProbe:
+      enabled: true
+      action:
+        tcpSocket:
+          port: 1317
+        failureThreshold: 3
+        periodSeconds: 30
+    volumeMounts:
+      []
+      # - name: data
+      #   mountPath: "/var/lib/themis"
+
+  service:
+    type: ClusterIP
+    annotations: {}
+    ports:
+      - port: 8646
+        protocol: TCP
+        targetPort: bridge
+        name: bridge
+      - port: 1317
+        protocol: TCP
+        targetPort: rest
+        name: rest
+
+  pvc:
+    enabled: false
+    storageClassName: "default"
+    size: "50Gi"
+
+  tolerations: []
+  affinity: {}
+
+  volumes:
+    []
+    # - name: data
+    #   persistentVolumeClaim:
+    #     claimName: the pvc name

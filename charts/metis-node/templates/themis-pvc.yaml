@@ -1,0 +1,13 @@
+{{- if and .Values.consensus.enabled .Values.consensus.pvc.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "metis-node.fullname" . }}-themis
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ .Values.consensus.pvc.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.consensus.pvc.size }}
+{{- end }}

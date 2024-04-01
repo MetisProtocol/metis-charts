@@ -1,0 +1,86 @@
+{{ if .Values.l1dtl.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "metis-node.fullname" . }}-l1dtl
+  labels:
+    app: {{ .Release.Name }}-l1dtl
+    {{- include "metis-node.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "metis-node.fullname" . }}-l1dtl
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-l1dtl
+      {{- include "metis-node.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/l1dtl-secret.yaml") . | sha256sum }}
+        {{- with .Values.l1dtl.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        app: {{ .Release.Name }}-l1dtl
+        {{- include "metis-node.labels" . | nindent 8 }}
+        {{- with .Values.l1dtl.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.l1dtl.attachServiceAccount .Values.serviceAccount.create }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.l1dtl.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.l1dtl.terminationGracePeriodSeconds }}
+      containers:
+        - name: l1dtl
+          securityContext:
+            {{- toYaml .Values.l1dtl.securityContext | nindent 12 }}
+          image: "{{ .Values.l1dtl.image.repository }}:{{ .Values.l1dtl.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.l1dtl.image.pullPolicy }}
+          {{ with .Values.l1dtl.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ include "metis-node.fullname" . }}-l1dtl-env
+          {{- if .Values.l1dtl.startupProbe.enabled }}
+          startupProbe:
+            {{- toYaml .Values.l1dtl.startupProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.l1dtl.livenessProbe.enabled }}
+          livenessProbe:
+            {{- toYaml .Values.l1dtl.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.l1dtl.livenessProbe.enabled }}
+          readinessProbe:
+            {{- toYaml .Values.l1dtl.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.l1dtl.resources | nindent 12 }}
+          {{- with .Values.l1dtl.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.l1dtl.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.l1dtl.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.l1dtl.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.l1dtl.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

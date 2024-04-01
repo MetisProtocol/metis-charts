@@ -1,0 +1,96 @@
+{{ if .Values.l2geth.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "metis-node.fullname" . }}-l2geth
+  labels:
+    app: {{ .Release.Name }}-l2geth
+    {{- include "metis-node.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "metis-node.fullname" . }}-l2geth
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-l2geth
+      {{- include "metis-node.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/l2geth-secret.yaml") . | sha256sum }}
+        {{- with .Values.l2geth.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        app: {{ .Release.Name }}-l2geth
+        {{- include "metis-node.labels" . | nindent 8 }}
+        {{- with .Values.l2geth.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.l2geth.attachServiceAccount .Values.serviceAccount.create }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.l2geth.podSecurityContext | nindent 8 }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      terminationGracePeriodSeconds: {{ .Values.l2geth.terminationGracePeriodSeconds }}
+      {{- with .Values.l2geth.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: l2geth
+          securityContext:
+            {{- toYaml .Values.l2geth.securityContext | nindent 12 }}
+          image: "{{ .Values.l2geth.image.repository }}:{{ .Values.l2geth.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.l2geth.image.pullPolicy }}
+          {{ with .Values.l2geth.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.l2geth.envs }}
+          envs:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ include "metis-node.fullname" . }}-l2geth-env
+          {{- if .Values.l2geth.startupProbe.enabled }}
+          startupProbe:
+            {{- toYaml .Values.l2geth.startupProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.l2geth.livenessProbe.enabled }}
+          livenessProbe:
+            {{- toYaml .Values.l2geth.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          {{- if .Values.l2geth.livenessProbe.enabled }}
+          readinessProbe:
+            {{- toYaml .Values.l2geth.livenessProbe.action | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.l2geth.resources | nindent 12 }}
+          {{- with .Values.l2geth.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.l2geth.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.l2geth.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.l2geth.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.l2geth.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
