@@ -6,18 +6,28 @@
 docker run --rm -it -v ./tmp:/var/lib/themis metisdao/themis init
 ```
 
-You will get the key in following files, and you need to backup them and ensure their security
+You will get the key in following files
 
 ```
-tmp/config/node_key.json
-tmp/config/priv_validator_key.json
+tmp
+├── config
+│   ├── app.toml
+│   ├── config.toml
+│   ├── genesis.json
+│   ├── node_key.json
+│   ├── priv_validator_key.json
+│   └── themis-config.toml
+└── data
+    └── priv_validator_state.json
+
+3 directories, 7 files
 ```
+
+you need to backup `node_key.json` and `priv_validator_key.json` and ensure their security
 
 ## Submit your Sequencer information
 
-https://github.com/MetisProtocol/metis-sequencer-resources
-
-Run following commands to get the public key and address of your sequencer
+1. Run following commands to get the public key and address of your sequencer
 
 ```sh
 $ docker run --rm -it -v ./tmp:/var/lib/themis metisdao/themis show-account
@@ -33,8 +43,41 @@ $ docker run --rm -it -v ./tmp:/var/lib/themis metisdao/themis show-privatekey
 
 NOTE: the `priv_key` is the same with `SEQ_PRIV` env in the l2geth service.
 
-## Edit Themis config
+2. Fork https://github.com/MetisProtocol/metis-sequencer-resources
 
-Edit `tmp/config/config.toml` and update `persistent_peers` field.
+3. Refer to its README to add your sequencer info
+
+4. Make a pull request
+
+## Prepare config for your node
+
+1. Edit `tmp/config/config.toml` and update `persistent_peers` field.
 
 Please note, the peer info is not public in this repo for now, you can only get it after you're whitelisted.
+
+2. Copy the genesis file
+
+```sh
+cp docs/networks/<NETWORK_NAME>/themis/genesis.json tmp/config
+cp docs/networks/<NETWORK_NAME>/themis/themis-config.toml tmp/config
+```
+
+you wil need to create a configmap for the the `tmp/config`
+
+```
+tmp/config
+├── app.toml
+├── config.toml
+├── genesis.json
+├── node_key.json
+├── priv_validator_key.json
+└── themis-config.toml
+
+1 directory, 6 files
+```
+
+refer to the [Create and Copy themis config](../charts/metis-node/README.md) section
+
+## Create an EKS cluster
+
+you can use your own way to do that, the terraform module can guide you what system requirements you should use.
