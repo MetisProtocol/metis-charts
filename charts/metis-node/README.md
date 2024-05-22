@@ -150,7 +150,7 @@ you can use Vault and Secret Manager to set the key
 for example, you can use [secret manager csi](https://secrets-store-csi-driver.sigs.k8s.io/topics/set-as-env-var) to add it
 
 ```yaml
-l2geht:
+l2geth:
   envs:
     - name: SEQ_PRIV
       valueFrom:
@@ -163,7 +163,7 @@ l2geht:
 
 It's not recommended to use configmap and subpath to mapping the config file, you can use init container to copy the config files to the volume.
 
-The initial file tree like:
+The initial file tree looks like:
 
 ```
 ├── config

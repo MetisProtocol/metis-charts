@@ -29,7 +29,7 @@ l2geth:
   image:
     repository: metisdao/l2geth
     pullPolicy: IfNotPresent
-    tag: "v0.1.2"
+    tag: "v0.2.0"
 
   ## Set ENV
   envs: []
