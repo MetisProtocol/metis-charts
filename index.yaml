@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   metis-node:
   - apiVersion: v2
+    appVersion: 0.3.0
+    created: "2024-07-09T08:00:43.526984991Z"
+    description: A Helm chart for Metis node
+    digest: d7641dcc4a8192d59213f306ef59d2e2b527f22a5b793f72d2cff7ae6a5e3542
+    name: metis-node
+    type: application
+    urls:
+    - https://github.com/MetisProtocol/metis-charts/releases/download/metis-node-0.0.5/metis-node-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
     appVersion: 0.2.4
     created: "2024-06-02T15:08:38.61716189Z"
     description: A Helm chart for Metis node
@@ -41,4 +51,4 @@ entries:
     urls:
     - https://github.com/MetisProtocol/metis-charts/releases/download/metis-node-0.0.1/metis-node-0.0.1.tgz
     version: 0.0.1
-generated: "2024-06-02T15:08:38.617178Z"
+generated: "2024-07-09T08:00:43.527007152Z"
