@@ -29,7 +29,7 @@ l2geth:
   image:
     repository: metisdao/l2geth
     pullPolicy: IfNotPresent
-    tag: "v0.3.1"
+    tag: "v0.3.2"
 
   ## Set ENV
   envs: []
@@ -232,7 +232,7 @@ consensus:
   image:
     repository: metisdao/themis
     pullPolicy: IfNotPresent
-    tag: "v0.1.2"
+    tag: "v0.1.4"
 
   ## Set ENV vars via secret
   ## Refer to docs/networks/<network>/l1dtl.env.yaml for the details
