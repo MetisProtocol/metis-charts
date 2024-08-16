@@ -113,7 +113,13 @@ l2geth:
       cpu: 8000m
 
   tolerations: []
-  affinity: {}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: metis-themis
+          topologyKey: kubernetes.io/hostname
 
   pvc:
     enabled: true
@@ -211,7 +217,14 @@ l1dtl:
     size: "20Gi"
 
   tolerations: []
-  affinity: {}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: metis-themis
+          topologyKey: kubernetes.io/hostname
+
 
   volumes:
     []
@@ -379,7 +392,13 @@ consensus:
     size: "50Gi"
 
   tolerations: []
-  affinity: {}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: metis-l2geth
+          topologyKey: kubernetes.io/hostname
 
   volumes:
     []
