@@ -232,7 +232,7 @@ consensus:
   image:
     repository: metisdao/themis
     pullPolicy: IfNotPresent
-    tag: "v0.1.4"
+    tag: "v0.1.5-2"
 
   ## Set ENV vars via secret
   ## Refer to docs/networks/<network>/l1dtl.env.yaml for the details

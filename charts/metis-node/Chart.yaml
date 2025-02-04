@@ -3,4 +3,4 @@ name: metis-node
 description: A Helm chart for Metis node
 type: application
 version: 0.0.8
-appVersion: "0.3.4"
+appVersion: "0.3.5"
